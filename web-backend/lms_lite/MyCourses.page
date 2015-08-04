@@ -1,0 +1,146 @@
+<com:TContent ID="MainContent">
+  <com:AppCallback ID="ScormOnAfterCommitCallback"
+    OnCallback="ScormOnAfterCommitCallback_OnCallback" />
+
+  <div class="panel">
+    <h2>My WBT Courses</h2>
+
+    <div class="instructions">
+      Below are all the WBT courses that you are currently enrolled in. For
+      information about a course, click the Info icon at the right of the
+      course name. To start a lesson, click the Open icon to the left of
+      the lesson name.
+      <p>
+        <strong>Do not close this window while taking the training.</strong>
+      </p>
+    </div>
+    <com:TPanel ID="MessagePanel" />
+  </div>
+
+  <div class="panel">
+    <div class="meta-info"><com:TLabel ID="UserCourseRepeaterMetaLabel" /></div>
+
+    <com:TRepeater ID="UserCourseRepeater"
+      DataKeyField="user_course_id"
+      PageSize="10"
+      AllowPaging="true"
+      AllowCustomPaging="true"
+      OnItemDataBound="UserCourseRepeater_OnItemDataBound">
+      <prop:EmptyTemplate>
+        <com:AppMessage MessageType="Notice">
+          You are not currently registered for any WBT courses. You must be
+          registered for courses before you can begin training.
+          <com:TConditional Condition="$this->getPage()->getIsAvailableCourses()">
+            <prop:TrueTemplate>
+              To register for a course, choose "Available WBT Courses"
+              from the menu above.
+            </prop:TrueTemplate>
+          </com:TConditional>
+        </com:AppMessage>
+      </prop:EmptyTemplate>
+
+      <prop:HeaderTemplate>
+        <table id="my-courses-table" class="grid-table" summary="Your registered Web Based Training Courses. Ordered by most recently registered.">
+          <tr>
+            <th class="col-0" scope="col">Registered</th>
+            <th abbr="course" scope="col" class="col-1">WBT Course</th>
+          </tr>
+      </prop:HeaderTemplate>
+
+      <prop:ItemTemplate>
+        <tr class="<%#$this->Page->getTrClassName($this->ItemIndex+1)%>">
+          <td class="col-0" valign="top">
+            <%#date($this->Application->Parameters['dateFormat'], $this->Data->date_registered)%>
+          </td>
+          <td class="col-1">
+            <a href="#course-<%#$this->Data->course->course_id%>-lessons" class="course-a course-title" title="Expand/Collapse Course Lessons">
+              <com:AppThemeIcon Filename="icon-course.png" AlternateText="" />
+              <%#$this->Data->course->title%>
+              <span class="version">(v<%#$this->Data->course->course_series_version%>)</span>
+            </a>
+            <com:TActivePanel ID="CertificateActivePanel" CssClass="course-ancillary-buttons">
+              <com:AppThemeIconButton
+                ID="CertificateThemeIconButton"
+                Filename="icon-certificate.png"
+                AlternateText="Print Certificate"
+                OnCommand="Page.CertificateThemeIconButton_OnCommand"
+                CommandParameter="<%#$this->Data->course->course_id%>" />
+              <com:TMultiView ActiveViewIndex="<%#($this->Data->course->description=='')%>">
+                <com:TView>
+                  <a href="#course-<%#$this->Data->course->course_id%>-description" class="theme-icon-button">
+                    <com:AppThemeIcon Filename="icon-info.png" AlternateText="Show/Hide Course Description" /></a>
+                </com:TView>
+                <com:TView></com:TView>
+              </com:TMultiView>
+            </com:TActivePanel>
+            <div id="course-<%#$this->Data->course->course_id%>-description" class="course-description" style="display:none;">
+              <div><%#$this->Data->course->description%></div>
+            </div>
+            <div id="course-<%#$this->Data->course->course_id%>-lessons" class="course-lessons" style="display:none;">
+              <com:TRepeater ID="CourseScoRepeater">
+                <prop:HeaderTemplate>
+                  <table class="grid-table" summary="Lessons for the <%#$this->Parent->Parent->Data->course->title%> course. Each row contains a link to launch the lesson, the lesson name, and current status in the lesson.">
+                    <tr>
+                      <th class="open" scope="col">Open</th>
+                      <th class="lesson" scope="col">Lesson</th>
+                      <th class="score" scope="col">Score</th>
+                      <th class="success" scope="col">Success</th>
+                      <th class="completion" scope="col">Completion</th>
+                      <th class="optional" scope="col">Optional?</th>
+                    </tr>
+                </prop:HeaderTemplate>
+
+                <prop:ItemTemplate>
+                  <tr class="<%#$this->Page->getTrClassName($this->ItemIndex+1)%>">
+                    <td class="open">
+                      <a href="<%#$this->Data['url']%>" class="sco-a theme-icon-button" target="lms_lite_sco">
+                        <com:AppThemeIcon Filename="icon-sco.png" AlternateText="Open Lesson" /></a>
+                      <com:THiddenField Value="<%#$this->Data['params']%>" />
+                    </td>
+                    <td class="lesson"><%#$this->Data['title']%></td>
+                    <td class="score"><%#$this->Data['score']%></td>
+                    <td class="success"><%#$this->Data['success']%></td>
+                    <td class="completion"><%#$this->Data['completion']%></td>
+                    <td class="optional">
+                      <com:TMultiView ActiveViewIndex="<%#$this->Data['is_required']%>">
+                        <com:TView>
+                          <com:AppThemeIcon Filename="icon-check.png" AlternateText="Yes" />
+                        </com:TView>
+                        <com:TView>&nbsp;</com:TView>
+                      </com:TMultiView>
+                    </td>
+                  </tr>
+                </prop:ItemTemplate>
+
+                <prop:FooterTemplate>
+                  </table>
+                </prop:FooterTemplate>
+              </com:TRepeater>
+            </div>
+          </td>
+        </tr>
+      </prop:ItemTemplate>
+
+      <prop:FooterTemplate>
+        </table>
+      </prop:FooterTemplate>
+    </com:TRepeater>
+
+    <com:AppPager ID="UserCourseRepeaterPager"
+      FirstPageToolTip="First <%=$this->Page->UserCourseRepeater->PageSize%> Courses"
+      NextPageText="Next <%=$this->Page->UserCourseRepeater->PageSize%> Courses"
+      PrevPageText="Previous <%=$this->Page->UserCourseRepeater->PageSize%> Courses"
+      LastPageToolTip="Last <%=$this->Page->UserCourseRepeater->PageSize%> Courses"
+      ControlToPaginate="UserCourseRepeater"
+      OnPageIndexChanged="UserCourseRepeater_OnPageIndexChanged" />
+  </div>
+
+  <com:TPanel ID="AdobeReaderPanel">
+    <p id="get-adobe-reader" class="screen-only">
+      Adobe Reader is required to view certificates.<br />
+      <a href="http://get.adobe.com/reader/" target="adobereader">
+        Get Adobe Reader
+      </a>
+    </p>
+  </com:TPanel>
+</com:TContent>

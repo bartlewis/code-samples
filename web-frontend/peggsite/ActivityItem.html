@@ -1,0 +1,33 @@
+<a href="{{rootUrl}}/{{username}}" class="activity-comp avatar">
+  {{#if avatar}}
+    <img src="{{contentUrl}}/{{user_id}}/{{avatar}}" width="30" height="30" />
+  {{/if}}
+</a>
+<div class="activity-comp comment">
+  <a href="{{rootUrl}}/{{username}}" class="username">{{usernameDisplay}}</a>
+
+  {{#if isComment}}
+    left a comment on your post: "{{{processLinks extra.comment true true}}}"
+  {{else}}
+    {{#if isLove}}
+      loved your post
+    {{else}}
+      {{#if isMention}}
+        mentioned you{{#if extra.comment}}: {{{processLinks extra.comment true true}}}{{/if}}
+      {{else}}
+        followed you
+      {{/if}}
+    {{/if}}
+  {{/if}}
+</div>
+{{#if isFollow}}
+  <div class="activity-comp thumbnail">
+    {{! Follow View inserted here on afterRender }}
+  </div>
+{{else}}
+  <a href="{{postUrl}}" class="activity-comp thumbnail" style="{{previewThumbStyle true}}">
+    {{#if extra.src}}
+      <div style="{{previewThumbStyle false}}"></div>
+    {{/if}}
+  </a>
+{{/if}}

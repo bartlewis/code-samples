@@ -1,0 +1,226 @@
+.view-user-activity,
+.view-user-activity *,
+.view-user-activity *:before,
+.view-user-activity *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.view-user-activity {
+  display: none;
+  width: 300px;
+  height: 450px;
+  min-width: inherit;
+  background: #FFF;
+  position: absolute;
+  z-index: 13;
+  box-shadow: -5px 5px 25px 5px rgba(0, 0, 0, 0.4);
+  padding: 15px 10px 15px 15px;
+  border-radius: 4px;
+  outline: none; /* We give the feed FOCUS, so we can react to onblur */
+}
+
+/* Adds a speach balloon triangle to the top */
+.view-user-activity:before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 47%;
+  height: 16px;
+  width: 16px;
+  background: inherit;
+  border: inherit;
+  border-radius: 0 3px;
+  -moz-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-backface-visibility: hidden;
+}
+.view-user-activity:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 5%;
+  height: 13px;
+  width: 50%;
+  background: inherit;
+}
+
+/* title and close are only used by mobile web view */
+.view-user-activity h2, .view-user-activity .activity-close {
+  display: none;
+}
+
+.view-user-activity ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 10px 0 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.busy .view-user-activity ul:after {
+  content: '';
+  display: block;
+  height: 40px;
+  width: 100%;
+  background: url(../../../../img/spinner-large.gif) no-repeat 50% 50%;
+}
+
+.view-user-activity li {
+  float: none;
+  position: relative;
+  font-size: 0;
+  line-height: normal;
+  height: auto;
+  margin: 10px 0;
+  min-height: 30px;
+  padding: 0;
+  text-transform: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.view-user-activity li a {
+  text-transform: none;
+}
+
+.view-user-activity .activity-comp {
+  position: absolute;
+  display: inline-block;
+  font-size: 13px;
+  vertical-align: top;
+}
+
+/* Separator bar that appears underneath each activity item */
+.view-user-activity li:after {
+  content: '';
+  display: block;
+  position: absolute;
+  background: #e1e1e1;
+  height: 1px;
+  bottom: 0;
+  left: 38px;
+  right: 0;
+}
+
+.view-user-activity .avatar, .view-user-activity .thumbnail {
+  height: 30px;
+  width: 30px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.view-user-activity .avatar img {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+}
+
+.view-user-activity .avatar, .view-user-activity .follow, .view-user-activity .unfollow {
+  background: url(../../../../img/ps-sprite1x.png) -800px -600px no-repeat;
+}
+
+.view-user-activity .username {
+  color: #d85c20;
+  font-family: 'Proxima N W01 Smbd', sans-serif;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+}
+
+.view-user-activity .username:hover {
+  text-decoration: underline;
+}
+
+.view-user-activity .comment {
+  position: relative;
+  letter-spacing: 0.2px;
+  line-height: 23px;
+  padding: 5px 0 10px 0;
+  margin: 0 38px;
+  vertical-align: top;
+  white-space: normal;
+  color: #666;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.view-user-activity .thumbnail {
+  right: 0;
+}
+
+.view-user-activity .thumbnail a {
+  display: block;
+  font-family: 'Proxima N W01 Smbd', 'Helvetica Neue', 'helvetica', sans-serif;
+  font-size: 18px;
+  height: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-indent: 100%;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.view-user-activity .follow, .view-user-activity .unfollow {
+  background-position: -295px -395px;
+  background-color: #fff;
+  border: 2px solid #8dc740;
+}
+
+.view-user-activity .unfollow {
+  background-position: -396px -495px;
+  background-color: #8dc740;
+}
+
+.view-user-activity .unfollow.is-private {
+  background-position: -400px -500px;
+}
+
+/* Breakpoint for horizontal board */
+@media all and (max-width: 500px) {
+  .view-user-activity {
+    position: fixed;
+    top: 0 !important;
+    right: 0;
+    bottom: 0;
+    left: 0 !important;
+    border: 0;
+    width: auto;
+    height: auto;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .view-user-activity:before, .view-user-activity:after {
+    display: none;
+  }
+
+  .view-user-activity h2 {
+    display: block;
+    color: #404244;
+    text-align: center;
+    margin: 0 0 20px 0;
+    font-size: 1.4em;
+    font-family: 'Proxima N W01 Smbd', 'Helvetica Neue', 'helvetica', sans-serif;
+    text-transform: uppercase;
+  }
+
+  .view-user-activity .activity-close {
+    display: block;
+    position: absolute;
+    background: transparent url(../../../../img/ps-sprite1x.png) -298px -898px no-repeat;
+    width: 40px;
+    height: 40px;
+    top: 8px;
+    right: 19px;
+  }
+
+  .view-user-activity ul {
+    /* 30px accounts for the header title and close button */
+    padding-bottom: 30px;
+  }
+}
