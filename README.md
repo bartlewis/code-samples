@@ -6,21 +6,21 @@ Snippets of code from current and past projects. These code snippets are broken 
 The top level of directories defines the type, while the second level defines the name of the project where that code is from.
 
  - apps-ios
-	 - pegg
+   - pegg
  - web-backend
-	 - lms_lite
-	 - pegg
+   - lms_lite
+   - pegg
  - web-frontend
-	 - peggmaker
-	 - peggsite
-	 - peggmaker
+   - peggmaker
+   - peggsite
+   - peggmaker
 
 ## Project Code Samples ##
 
 ### apps-ios/pegg ###
 The [Pegg app](https://itunes.apple.com/us/app/peggsite/id989587847?ls=1&mt=8) is a social media app, for iPhone. These samples include a few ViewControllers that I built for different pages within the app.
 
- - Objectice-C
+ - Objective-C
 
 ### web-backend/lms_lite ###
 LMS Lite is an application that allowed our State & Local Government customers to host their web-based training. These samples include a PHP/Prado based wrapper that I created around a command line utility, and a class that represents a page/view within the application.
